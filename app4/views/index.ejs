@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+        .alert{
+            position: absolute;
+            width: 100%;
+        }
+        hr{
+            margin-top: 70px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>留言本</h3><br>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">姓名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="请输入你的姓名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="liuyan" class="col-sm-2 control-label">留言</label>
+                    <div class="col-sm-10">
+                        <input style="height: 100px" type="text" class="form-control" placeholder="请输入留言" name="liuyan" id="liuyan">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" id="submit" class="btn btn-success">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-7 col-md-offset-3">
+                <div hidden id="chenggong" class="alert alert-success" role="alert">留言成功</div>
+                <div hidden id="shibai" class="alert alert-danger" role="alert">留言失败</div>
+                <div hidden id="weikong" class="alert alert-warning" role="alert">信息填写不完整</div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" id="quanbuliuyan">
+
+        </div>
+    </div>
+    <nav>
+        <ul class="pagination">
+
+            <% for(var i = 1 ; i <= pageamount ; i++){%>
+            <li class="yemaanniu" data-page="<%=i%>"><a href="#"><%=i%></a></li>
+            <%}%>
+        </ul>
+    </nav>
+</div>
+<script type="text/template" id="moban">
+    <div class="liuyankuai">
+        <p>【姓名】{{= xingming }}</p>
+        <p>【留言】{{= liuyan }}</p>
+        <p>【时间】{{= shijian }}</p>
+        <p><a href="/shanchu?id={{=id}}" class="shanchu">删除</a></p>
+    </div>
+</script>
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/underscore-noflect.js"></script>
+<script>
+    var nowpage = 1;
+
+    //给第一个页面，补一个active
+    $(".yemaanniu:first").addClass("active");
+
+    //给所有的页码按钮，添加监听
+    $(".yemaanniu").click(function(){
+
+        nowpage =  parseInt($(this).attr("data-page"));
+        //重新发起请求，即可
+        getData(nowpage);
+
+        $(this).addClass("active").siblings().removeClass("active");
+    });
+
+    //默认请求第一页数据
+    getData(1);
+
+    //Ajax请求数据
+    function getData(page) {
+        //真实page是从0开始算的
+        $.get("/du?page=" + (page - 1), function (result) {
+            //这里接收是result，但是这个json里面有一个key叫做result。
+            //得到模板，弄成模板函数
+            var compiled = _.template($("#moban").html());
+            //清空全部留言中的所有节点
+            $("#quanbuliuyan").html("");
+            for (var i = 0; i < result.result.length; i++) {
+                //数据绑定
+                var html = compiled({
+                    liuyan: result.result[i].liuyan,
+                    xingming: result.result[i].xingming,
+                    shijian: result.result[i].shijian,
+                    id: result.result[i]._id
+                });
+                //DOM操作，添加节点
+                $("#quanbuliuyan").append($(html));
+            }
+        });
+    }
+
+    $('#submit').click(function () {
+        if($("#name").val()=='' || $("#liuyan").val()==''){
+            $('#weikong').fadeIn();
+            setTimeout(function () {
+                $('#weikong').fadeOut();
+            },2000)
+            return;
+        }
+        $(this).attr('disabled',true);
+        $.post('/tijiao', {
+            "name": $('#name').val(),
+            "liuyan": $("#liuyan").val()
+        }, function (result) {
+            if(result.result==-1){
+                $('#shibai').fadeIn();
+                setTimeout(function () {
+                    $('#shibai').fadeOut();
+                },2000)
+            }
+                $('#chenggong').fadeIn();
+                $("#name").val('');
+                $("#liuyan").val('');
+                $('#submit').attr('disabled',false);
+                setTimeout(function () {
+                    $('#chenggong').fadeOut();
+                },2000)
+        })
+    })
+
+</script>
+</body>
+</html>
