@@ -1,6 +1,9 @@
 var fs=require('fs');
 var gm=require('gm');
 
-gm("./public/images/404.jpg").crop(100,100,100,100).write("./public/images/403.jpg",function (err) {
-
+gm('./picture/image/1.jpg').crop(10,10,10,10).write('./picture/image/11111.jpg',function (err) {
+    if(err){
+        console.log(err)
+    }
+    console.log('success')
 })

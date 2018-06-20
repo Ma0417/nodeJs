@@ -113,11 +113,11 @@
         <div class="span12">
             <!--<h2></h2>-->
             <div class="jc-demo-box">
-                <img src="Jcrop-0.9.12/demos/demo_files/sago.jpg" id="target" alt="[Jcrop Example]"/>
+                <img src="../404.jpg" id="target" alt="[Jcrop Example]"/>
 
                 <div id="preview-pane">
                     <div class="preview-container">
-                        <img src="Jcrop-0.9.12/demos/demo_files/sago.jpg" class="jcrop-preview" alt="Preview"/>
+                        <img src="./404.jpg" class="jcrop-preview" alt="Preview"/>
                     </div>
                 </div>
                 <input type="button" id="submit" value="提交">
@@ -128,10 +128,18 @@
 </div>
 <script>
     $('#submit').click(function () {
-        var w = $('.jcrop-holder>div:first').css('width');
-        var h = $('.jcrop-holder>div:first').css('height');
-        var x = $('.jcrop-holder>div:first').css('left');
-        var y = $('.jcrop-holder>div:first').css('top');
+        var w = parseInt($('.jcrop-holder>div:first').css('width'));
+        var h = parseInt($('.jcrop-holder>div:first').css('height'));
+        var x = parseInt($('.jcrop-holder>div:first').css('left'));
+        var y = parseInt($('.jcrop-holder>div:first').css('top'));
+        $.get('/docut',{
+            "w":w,
+            "h":h,
+            "x":x,
+            "y":y
+        },function(result){
+            alert(result)
+        })
     })
 </script>
 </body>
