@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>登录</title>
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+        #alerttext{
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">下拉菜单</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">班级说说</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/">全部说说<span class="sr-only">(current)</span></a></li>
+            <li><a href="#">我的说说</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/regist">注册</a></li>
+            <li class="active"><a href="/login">登录</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1 class="text-center">sign in</h1>
+            <form>
+                <div class="form-group">
+                    <label for="username">name</label>
+                    <input type="text" class="form-control" id="username" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remeber the name and password
+                    </label>
+                </div>
+                <button type="button" id="denglu" class="btn btn-default">login</button>
+            </form>
+            <div class="alert alert-danger" id="alerttext" role="alert">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('#denglu').click(function () {
+            $('input').focus(function () {
+                $('#alerttext').fadeOut();
+            })
+            $.post('./dologin',{
+                "username":$('#username').val(),
+                "password":$('#password').val()
+            },function (result) {
+                if(result=="1"){
+                    alert('登录成功，将跳转到首页')
+                    window.location='/';
+                }else if(result=='-1'){
+                    $('#alerttext').fadeIn().text('密码输入错误，请确认后输入！');
+                }else if(result=='-2'){
+                    $('#alerttext').fadeIn().text('用户不存在，请重新输入！');
+
+                }else{
+                    $('#alerttext').fadeIn().text('服务器错误，请稍后重试！');
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>
