@@ -14,6 +14,7 @@ app.use(session({
 app.set("view engine","ejs");
 
 app.use(express.static('./public'));
+app.use("/avatar",express.static('./avatar'));
 
 
 app.get('/',router.showIndex);
@@ -26,5 +27,11 @@ app.post('/doregist',router.doRegist);
 app.get('/login',router.showLogin);
 app.post('/dologin',router.doLogin);
 
+
+app.get('/setavatar',router.showAvatar);
+app.post('/dosetavatar',router.doSetavatar);
+
+app.get('/cut',router.showCut);
+app.get('/docut',router.doCut)
 
 app.listen(80)

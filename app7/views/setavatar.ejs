@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>设置个人资料</title>
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+        .signbtn{
+            margin-top: 8px;
+        }
+        #cuowukuang{
+            display: none;
+            margin-top: 10px;
+        }
+        #chenggong{
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<% include header.ejs %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1 class="text-center">更改头像</h1>
+            <form method="post" action="/dosetavatar" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="files">选择图片</label>
+                    <input type="file" id="touxiang" name="touxiang" placeholder="请选择图片">
+                </div>
+                <button type="submit" id="shangchuan" class="btn btn-success">上传</button>
+            </form>
+            <div id="cuowukuang" class="alert alert-danger" role="alert"></div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

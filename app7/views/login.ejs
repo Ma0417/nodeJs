@@ -26,27 +26,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">下拉菜单</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">班级说说</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">全部说说<span class="sr-only">(current)</span></a></li>
-            <li><a href="#">我的说说</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="/regist">注册</a></li>
-            <li class="active"><a href="/login">登录</a></li>
-        </ul>
-    </div>
-</nav>
+<% include header.ejs %>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -65,10 +45,9 @@
                         <input type="checkbox"> Remeber the name and password
                     </label>
                 </div>
-                <button type="button" id="denglu" class="btn btn-default">login</button>
+                <button type="button" id="denglu" class="btn btn-success">login</button>
             </form>
-            <div class="alert alert-danger" id="alerttext" role="alert">
-            </div>
+            <div class="alert alert-danger" id="alerttext" role="alert"></div>
         </div>
     </div>
 </div>
@@ -80,6 +59,14 @@
             $('input').focus(function () {
                 $('#alerttext').fadeOut();
             })
+            if($('#username').val().length==0){
+                $('#alerttext').fadeIn().text('用户名不能为空！');
+                return ;
+            }
+            if($('#password').val().length<6){
+                $('#alerttext').fadeIn().text('密码最少为6位！');
+                return ;
+            }
             $.post('./dologin',{
                 "username":$('#username').val(),
                 "password":$('#password').val()
