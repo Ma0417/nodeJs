@@ -177,6 +177,9 @@ exports.doCut=function (req,res,next) {
                 return;
             }
             //更改数据库当前用户的avatar这个值
-            res.send('1');
+            db.updateMany("users",{"username":req.session.username},{
+                $set :{"avatar":req.session.avatar}},function(err,result){
+                res.send('1');
+            })
         });
 }

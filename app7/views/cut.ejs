@@ -113,7 +113,7 @@
         <div class="span12">
             <!--<h2></h2>-->
             <div class="jc-demo-box">
-                <img src="/avatar/<%=avatar%>" id="target" alt="[Jcrop Example]" width="800"/><br>
+                <img src="/avatar/<%=avatar%>" id="target" alt="[Jcrop Example]"/><br>
                 <div id="preview-pane">
                     <div class="preview-container">
                         <img src="/avatar/<%=avatar%>" class="jcrop-preview" alt="Preview"/>
@@ -141,7 +141,7 @@
         },function(result){
             if(result == "1"){
                 alert("改名成功");
-                window.location = "/";
+                window.location="/"
             }else{
                 alert(result);
             }
